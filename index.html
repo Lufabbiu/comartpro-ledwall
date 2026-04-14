@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Com.Art.Pro APS ETS — Progetto Led Wall</title>
+<style>
+  :root{
+    --ink:#0e1a2b;
+    --ink-soft:#2a3a55;
+    --paper:#f6f4ee;
+    --accent:#c8451f;
+    --accent-soft:#e86b3a;
+    --gold:#c89b3c;
+    --line:rgba(14,26,43,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);overflow:hidden}
+  body{display:flex;align-items:center;justify-content:center}
+
+  .deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:6vh 8vw;
+    background:var(--paper);
+    opacity:0;pointer-events:none;
+    transform:translateY(20px);
+    transition:opacity .5s ease, transform .5s ease;
+    overflow:auto;
+  }
+  .slide.active{opacity:1;pointer-events:auto;transform:translateY(0)}
+
+  /* chrome */
+  .chrome{
+    position:absolute;top:3vh;left:8vw;right:8vw;
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);
+    border-bottom:1px solid var(--line);padding-bottom:1vh;
+  }
+  .chrome .mark{display:flex;align-items:center;gap:.7rem;font-weight:600}
+  .chrome .mark::before{content:"";width:10px;height:10px;background:var(--accent);display:inline-block;border-radius:2px}
+  .chrome .pager{font-variant-numeric:tabular-nums}
+
+  /* typography */
+  .eyebrow{font-size:.82rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.8vh}
+  h1{font-size:clamp(2.4rem,5.2vw,5.2rem);line-height:1.02;letter-spacing:-.02em;font-weight:700;margin-bottom:3vh;max-width:18ch}
+  h2{font-size:clamp(1.8rem,3.4vw,3.2rem);line-height:1.08;letter-spacing:-.01em;font-weight:700;margin-bottom:3vh;max-width:22ch}
+  h3{font-size:clamp(1.1rem,1.5vw,1.4rem);font-weight:600;margin-bottom:.8rem}
+  p,li{font-size:clamp(1rem,1.25vw,1.25rem);line-height:1.55;color:var(--ink-soft);max-width:62ch}
+  .lead{font-size:clamp(1.15rem,1.5vw,1.5rem);color:var(--ink);max-width:55ch;margin-bottom:2vh}
+
+  .rule{width:60px;height:3px;background:var(--accent);margin-bottom:3vh;border:0}
+
+  /* grids */
+  .grid{display:grid;gap:clamp(1rem,2vw,2rem);margin-top:2vh}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:clamp(1.2rem,2vw,1.8rem);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(14,26,43,.08)}
+  .card .num{font-size:.75rem;letter-spacing:.2em;color:var(--accent);font-weight:700;display:block;margin-bottom:.8rem}
+  .card h3{margin-bottom:.6rem}
+  .card p{font-size:.95rem;line-height:1.5}
+
+  /* cover */
+  .cover{background:var(--ink);color:var(--paper);padding:0}
+  .cover .inner{padding:6vh 8vw;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+  .cover .chrome{color:rgba(246,244,238,.6);border-color:rgba(246,244,238,.15)}
+  .cover h1{color:var(--paper)}
+  .cover .tag{color:rgba(246,244,238,.75);max-width:50ch;font-size:clamp(1.1rem,1.4vw,1.4rem);line-height:1.5}
+  .cover .foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:.85rem;color:rgba(246,244,238,.55);letter-spacing:.1em;text-transform:uppercase}
+  .cover h1 em{font-style:normal;color:var(--accent-soft);font-weight:400}
+  .big-number{font-size:clamp(8rem,18vw,18rem);line-height:.85;font-weight:700;letter-spacing:-.04em;color:var(--accent)}
+
+  /* ratio bar */
+  .ratio{display:flex;height:70px;border-radius:8px;overflow:hidden;margin:3vh 0;font-weight:600;color:#fff}
+  .ratio div{display:flex;align-items:center;justify-content:center;font-size:1rem;flex-direction:column;gap:4px}
+  .ratio .r70{flex:70;background:var(--accent)}
+  .ratio .r20{flex:20;background:var(--ink)}
+  .ratio .r10{flex:10;background:var(--gold)}
+  .ratio small{font-size:.7rem;font-weight:400;opacity:.8;letter-spacing:.1em;text-transform:uppercase}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:3vh}
+  .step{position:relative;padding:1.4rem 1rem;background:#fff;border-radius:10px;border:1px solid var(--line)}
+  .step .n{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;margin-bottom:1rem}
+  .step h4{font-size:1rem;font-weight:600;line-height:1.3}
+
+  /* pillars */
+  .pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:3vh}
+  .pillar{text-align:center;padding:2rem 1rem;border-left:2px solid var(--line)}
+  .pillar:first-child{border-left:0}
+  .pillar .icn{font-size:2rem;color:var(--accent);margin-bottom:1rem;font-weight:300}
+  .pillar h4{font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
+  .pillar p{font-size:.85rem}
+
+  /* split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,5rem);align-items:center;height:100%}
+  .split-visual{
+    aspect-ratio:16/10;background:linear-gradient(135deg,#1a2942 0%,#0e1a2b 100%);
+    border-radius:16px;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 20px 60px rgba(14,26,43,.25);
+  }
+  .led-preview{
+    width:85%;aspect-ratio:16/9;background:#000;border-radius:6px;
+    display:grid;grid-template-columns:7fr 3fr;gap:4px;padding:4px;
+    box-shadow:inset 0 0 0 2px #222, 0 0 60px rgba(200,69,31,.3);
+  }
+  .led-left{background:linear-gradient(135deg,#c8451f,#e86b3a);border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-align:center;padding:1rem;font-size:clamp(.8rem,1vw,1.1rem)}
+  .led-right{display:grid;grid-template-rows:2fr 1fr;gap:4px}
+  .led-right>div{border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:600;text-align:center;padding:.5rem}
+  .led-top{background:#0e1a2b;border:1px solid #2a3a55}
+  .led-bot{background:var(--gold);color:var(--ink)!important}
+
+  /* benefits */
+  .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2vh}
+  .benefit{padding:1.5rem;border-radius:10px;background:#fff;border:1px solid var(--line);border-top:3px solid var(--accent)}
+  .benefit h4{font-size:1.05rem;font-weight:600;margin-bottom:.6rem;color:var(--ink)}
+  .benefit p{font-size:.9rem;line-height:1.5}
+
+  /* closing */
+  .closing{background:var(--ink);color:var(--paper)}
+  .closing h2{color:var(--paper)}
+  .closing p{color:rgba(246,244,238,.75)}
+  .closing .chrome{color:rgba(246,244,238,.6);border-color:rgba(246,244,238,.15)}
+  .closing .chrome .mark::before{background:var(--accent-soft)}
+  .cta-list{display:flex;gap:1rem;margin-top:3vh;flex-wrap:wrap}
+  .cta{padding:1rem 1.6rem;border:1px solid rgba(246,244,238,.25);border-radius:999px;font-size:.95rem;color:var(--paper)}
+  .cta.primary{background:var(--accent);border-color:var(--accent)}
+
+  /* nav */
+  .nav{
+    position:fixed;bottom:2vh;left:50%;transform:translateX(-50%);
+    display:flex;gap:.5rem;align-items:center;
+    background:rgba(14,26,43,.85);backdrop-filter:blur(10px);
+    padding:.5rem 1rem;border-radius:999px;z-index:100;
+  }
+  .nav button{
+    background:transparent;border:0;color:var(--paper);cursor:pointer;
+    padding:.3rem .6rem;font-size:1rem;opacity:.7;transition:opacity .2s;
+  }
+  .nav button:hover{opacity:1}
+  .nav .count{color:var(--paper);font-size:.8rem;font-variant-numeric:tabular-nums;opacity:.8;min-width:50px;text-align:center}
+
+  .hint{position:fixed;top:2vh;right:2vw;font-size:.7rem;color:rgba(246,244,238,.4);letter-spacing:.15em;text-transform:uppercase;z-index:100}
+
+  @media (max-width:900px){
+    .grid-3,.grid-4,.steps,.pillars,.benefits{grid-template-columns:repeat(2,1fr)}
+    .split{grid-template-columns:1fr}
+    .split-visual{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1. COVER -->
+  <section class="slide cover active">
+    <div class="inner">
+      <div class="chrome">
+        <div class="mark">Com.Art.Pro APS ETS</div>
+        <div class="pager">Assemblea Soci · 2026</div>
+      </div>
+      <div>
+        <div class="eyebrow" style="color:var(--accent-soft)">Progetto Led Wall</div>
+        <h1>Un nuovo spazio digitale<br>per dare voce agli associati<br>e al <em>territorio</em>.</h1>
+        <p class="tag">Promozione locale, comunicazione associativa e messaggi di pubblica utilità, in un'unica infrastruttura condivisa. Pensata per Alessano e Montesardo.</p>
+      </div>
+      <div class="foot">
+        <span>Associazione Commercianti, Artigiani e Liberi Professionisti</span>
+        <span>al servizio dell'ambiente e del cittadino</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. CHI SIAMO -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">01 / 10</div></div>
+    <div class="eyebrow">Chi siamo</div>
+    <h2>Un'associazione che mette in rete chi fa impresa sul territorio.</h2>
+    <hr class="rule">
+    <div class="grid grid-3">
+      <div><h3>Commercianti</h3><p>Le attività che animano ogni giorno le vie e le piazze di Alessano e Montesardo.</p></div>
+      <div><h3>Artigiani</h3><p>Il saper fare locale, custodito e rilanciato attraverso una rete comune.</p></div>
+      <div><h3>Liberi professionisti</h3><p>Competenze al servizio dei cittadini, delle imprese e della comunità.</p></div>
+    </div>
+    <p style="margin-top:4vh;font-style:italic;color:var(--ink)">Al servizio dell'ambiente e del cittadino.</p>
+  </section>
+
+  <!-- 3. PERCHÉ -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">02 / 10</div></div>
+    <div class="split">
+      <div>
+        <div class="eyebrow">Il punto di partenza</div>
+        <h2>Serve uno strumento di comunicazione moderno, visibile e condiviso.</h2>
+        <hr class="rule">
+        <p class="lead">Le attività del territorio hanno bisogno di farsi vedere in modo coordinato e contemporaneo.</p>
+        <p>Com.Art.Pro vuole offrire ai propri associati un servizio concreto, capace di unire promozione, identità territoriale e funzione pubblica.</p>
+      </div>
+      <div class="split-visual">
+        <div class="led-preview">
+          <div class="led-left">La tua attività<br>in vetrina</div>
+          <div class="led-right">
+            <div class="led-top">Evento ComArtPro</div>
+            <div class="led-bot">Avviso civico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. COS'È -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">03 / 10</div></div>
+    <div class="eyebrow">Il progetto</div>
+    <h2>Un Led Wall esterno gestito dall'associazione, con regole chiare.</h2>
+    <hr class="rule">
+    <p class="lead">Lo spazio sarà organizzato in tre aree funzionali, con gli associati come beneficiari principali.</p>
+    <div class="ratio">
+      <div class="r70"><span>70%</span><small>Associati</small></div>
+      <div class="r20"><span>20%</span><small>Com.Art.Pro</small></div>
+      <div class="r10"><span>10%</span><small>Pubblica utilità</small></div>
+    </div>
+    <div class="grid grid-3">
+      <div><h3 style="color:var(--accent)">Slot associati</h3><p>Promozioni, offerte, eventi e campagne stagionali delle attività socie.</p></div>
+      <div><h3>Slot Com.Art.Pro</h3><p>Iniziative associative, campagne collettive, eventi di rete.</p></div>
+      <div><h3 style="color:var(--gold)">Slot istituzionali</h3><p>Comunicazioni pubbliche, avvisi civici, informazioni utili al territorio.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. COME FUNZIONA -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">04 / 10</div></div>
+    <div class="eyebrow">Come funziona per i soci</div>
+    <h2>Dal caricamento alla messa in onda, in cinque passaggi.</h2>
+    <hr class="rule">
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h4>Accesso al portale</h4></div>
+      <div class="step"><div class="n">2</div><h4>Caricamento contenuto</h4></div>
+      <div class="step"><div class="n">3</div><h4>Richiesta pubblicazione</h4></div>
+      <div class="step"><div class="n">4</div><h4>Verifica e approvazione</h4></div>
+      <div class="step"><div class="n">5</div><h4>Messa in onda</h4></div>
+    </div>
+    <p style="margin-top:4vh">Tutti i contenuti sono gestiti secondo regole chiare, con approvazione centralizzata da parte dell'associazione.</p>
+  </section>
+
+  <!-- 6. PORTALE -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">05 / 10</div></div>
+    <div class="eyebrow">Il portale associati</div>
+    <h2>Una piattaforma semplice, pensata anche per chi non è tecnico.</h2>
+    <hr class="rule">
+    <div class="grid grid-3">
+      <div class="card"><span class="num">01</span><h3>Profilo attività</h3><p>Logo, categoria, contatti e dati della tua attività sempre aggiornati.</p></div>
+      <div class="card"><span class="num">02</span><h3>Libreria contenuti</h3><p>Carica immagini e video, riutilizza gli asset già approvati.</p></div>
+      <div class="card"><span class="num">03</span><h3>Gestione campagne</h3><p>Crea, pianifica e monitora le tue campagne promozionali.</p></div>
+      <div class="card"><span class="num">04</span><h3>Calendario</h3><p>Visualizza slot disponibili e date di pubblicazione in chiaro.</p></div>
+      <div class="card"><span class="num">05</span><h3>Stato approvazioni</h3><p>Segui in tempo reale lo stato di ogni richiesta inviata.</p></div>
+      <div class="card"><span class="num">06</span><h3>Regolamento</h3><p>Linee guida, specifiche tecniche e contenuti ammessi sempre a portata.</p></div>
+    </div>
+  </section>
+
+  <!-- 7. VANTAGGI -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">06 / 10</div></div>
+    <div class="eyebrow">Vantaggi per i soci</div>
+    <h2>Uno strumento che lavora per la tua attività.</h2>
+    <hr class="rule">
+    <div class="benefits">
+      <div class="benefit"><h4>Più visibilità locale</h4><p>Uno spazio digitale condiviso e professionale per raccontare la tua attività.</p></div>
+      <div class="benefit"><h4>Comunicazione accessibile</h4><p>Un servizio pensato per i soci, con regole chiare e gestione semplice.</p></div>
+      <div class="benefit"><h4>Promozioni più efficaci</h4><p>Campagne stagionali, eventi e offerte con maggiore impatto.</p></div>
+      <div class="benefit"><h4>Presenza in una rete</h4><p>Ogni attività comunica come parte di un sistema territoriale coordinato.</p></div>
+      <div class="benefit"><h4>Gestione ordinata</h4><p>Non pubblicità improvvisata, ma un progetto associativo strutturato.</p></div>
+      <div class="benefit"><h4>Valore per la comunità</h4><p>Migliora la comunicazione locale a beneficio di tutti.</p></div>
+    </div>
+  </section>
+
+  <!-- 8. TERRITORIO -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">07 / 10</div></div>
+    <div class="split">
+      <div>
+        <div class="eyebrow">Un progetto utile al territorio</div>
+        <h2>Non solo promozione: anche servizio pubblico.</h2>
+        <hr class="rule">
+        <p class="lead">Una quota dedicata sarà riservata a comunicazioni di interesse collettivo.</p>
+        <p>Questo rafforza il ruolo di Com.Art.Pro come soggetto attivo nella vita di Alessano e Montesardo, e rende il progetto coerente con una visione associativa aperta al bene comune.</p>
+      </div>
+      <div>
+        <div class="grid grid-2">
+          <div class="card"><h3>Eventi pubblici</h3><p>Iniziative comunali e territoriali.</p></div>
+          <div class="card"><h3>Campagne civiche</h3><p>Ambiente, sicurezza, cittadinanza.</p></div>
+          <div class="card"><h3>Informazioni utili</h3><p>Avvisi di interesse per i cittadini.</p></div>
+          <div class="card"><h3>Cultura</h3><p>Iniziative culturali del territorio.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. GOVERNANCE -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">08 / 10</div></div>
+    <div class="eyebrow">Principi di gestione</div>
+    <h2>Trasparenza, equilibrio, responsabilità.</h2>
+    <hr class="rule">
+    <div class="pillars">
+      <div class="pillar"><div class="icn">◇</div><h4>Trasparenza</h4><p>Tracciabilità delle pubblicazioni.</p></div>
+      <div class="pillar"><div class="icn">☰</div><h4>Regole chiare</h4><p>Uguali per tutti gli associati.</p></div>
+      <div class="pillar"><div class="icn">⊜</div><h4>Equilibrio</h4><p>Tra spazio soci, associativo e pubblico.</p></div>
+      <div class="pillar"><div class="icn">✦</div><h4>Qualità</h4><p>Approvazione preventiva dei contenuti.</p></div>
+      <div class="pillar"><div class="icn">◈</div><h4>Responsabilità</h4><p>Tutela del decoro collettivo.</p></div>
+    </div>
+    <p style="margin-top:4vh">Accesso riservato agli associati in regola. Nessun contenuto va online senza verifica.</p>
+  </section>
+
+  <!-- 10. PILOTA -->
+  <section class="slide">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">09 / 10</div></div>
+    <div class="eyebrow">Come partiamo</div>
+    <h2>Una fase pilota, per costruire con serietà.</h2>
+    <hr class="rule">
+    <p class="lead">Il progetto parte con un periodo pilota per verificare sostenibilità, gradimento, funzionalità del portale e impatto reale.</p>
+    <div class="grid grid-3" style="margin-top:4vh">
+      <div class="card"><span class="num">FASE 01</span><h3>Studio di fattibilità</h3><p>Definizione di regolamento, specifiche tecniche, location e modello economico.</p></div>
+      <div class="card" style="border-top:3px solid var(--accent)"><span class="num">FASE 02</span><h3>Avvio pilota</h3><p>Primi associati, portale in funzione, raccolta dati reali di utilizzo.</p></div>
+      <div class="card"><span class="num">FASE 03</span><h3>Valutazione e sviluppo</h3><p>Affinamento del regolamento e definizione del modello a regime.</p></div>
+    </div>
+  </section>
+
+  <!-- 11. CLOSING -->
+  <section class="slide closing">
+    <div class="chrome"><div class="mark">Com.Art.Pro APS ETS</div><div class="pager">10 / 10</div></div>
+    <div class="eyebrow" style="color:var(--accent-soft)">Costruiamolo insieme</div>
+    <h2>Una proposta da valutare insieme,<br>con serietà, sostenibilità e visione.</h2>
+    <hr class="rule" style="background:var(--accent-soft)">
+    <p class="lead" style="color:rgba(246,244,238,.85)">Il Led Wall Com.Art.Pro non è solo uno schermo: è un'infrastruttura associativa di comunicazione territoriale, pensata per dare visibilità agli associati e rafforzare il ruolo dell'associazione.</p>
+    <div class="cta-list">
+      <span class="cta primary">Approfondisci il progetto</span>
+      <span class="cta">Valutiamo la fase pilota</span>
+      <span class="cta">Costruiamo la bacheca digitale del territorio</span>
+    </div>
+    <p style="margin-top:6vh;color:rgba(246,244,238,.5);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase">Grazie · Alessano e Montesardo · 2026</p>
+  </section>
+
+</div>
+
+<div class="hint">← → per navigare</div>
+
+<div class="nav">
+  <button id="prev" aria-label="Precedente">◀</button>
+  <span class="count" id="count">1 / 11</span>
+  <button id="next" aria-label="Successiva">▶</button>
+</div>
+
+<script>
+  const slides=document.querySelectorAll('.slide');
+  const count=document.getElementById('count');
+  let i=0;
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    count.textContent=`${i+1} / ${slides.length}`;
+  }
+  document.getElementById('prev').onclick=()=>go(i-1);
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' ')go(i+1);
+    if(e.key==='ArrowLeft')go(i-1);
+    if(e.key==='Home')go(0);
+    if(e.key==='End')go(slides.length-1);
+  });
+</script>
+</body>
+</html>
