@@ -175,21 +175,67 @@
 
     <table class="cost-table">
       <thead>
-        <tr><th>Voce</th><th style="text-align:right">Stima annuale</th></tr>
+        <tr><th>Voce</th><th style="text-align:right">Stima annuale</th><th style="text-align:center">A carico</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>Energia elettrica</strong><small>Consumo medio impianto led esterno</small></td><td class="num">€ 360</td></tr>
-        <tr><td><strong>Connettività dati</strong><small>SIM dati / collegamento internet del modulo</small></td><td class="num">€ 240</td></tr>
-        <tr><td><strong>Hosting portale</strong><small>Server, dominio, certificati, backup</small></td><td class="num">€ 300</td></tr>
-        <tr><td><strong>Manutenzione ordinaria</strong><small>Pulizia, verifiche, piccoli interventi</small></td><td class="num">€ 400</td></tr>
-        <tr><td><strong>Assicurazione impianto</strong><small>Copertura danni, atti vandalici, eventi atmosferici</small></td><td class="num">€ 250</td></tr>
+        <tr><td><strong>Energia elettrica</strong><small>Consumo medio impianto led esterno</small></td><td class="num">€ 360</td><td style="text-align:center"><span style="background:var(--green);color:#fff;padding:.25rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.08em">COMUNE</span></td></tr>
+        <tr><td><strong>Connettività dati</strong><small>SIM dati / collegamento internet del modulo</small></td><td class="num">€ 240</td><td style="text-align:center"><span style="background:var(--green);color:#fff;padding:.25rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.08em">COMUNE</span></td></tr>
+        <tr><td><strong>Tasse e oneri comunali</strong><small>Occupazione suolo pubblico, pubblicità, autorizzazioni</small></td><td class="num">€ 200</td><td style="text-align:center"><span style="background:var(--green);color:#fff;padding:.25rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.08em">COMUNE</span></td></tr>
+        <tr><td><strong>Hosting portale</strong><small>Server, dominio, certificati, backup</small></td><td class="num">€ 300</td><td style="text-align:center"><span style="background:var(--accent);color:#fff;padding:.25rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.08em">ASSOCIAZIONE</span></td></tr>
+        <tr><td><strong>Manutenzione ordinaria</strong><small>Pulizia, verifiche, piccoli interventi</small></td><td class="num">€ 400</td><td style="text-align:center"><span style="background:var(--accent);color:#fff;padding:.25rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.08em">ASSOCIAZIONE</span></td></tr>
+        <tr><td><strong>Assicurazione impianto</strong><small>Copertura danni, atti vandalici, eventi atmosferici</small></td><td class="num">€ 250</td><td style="text-align:center"><span style="background:var(--accent);color:#fff;padding:.25rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:.08em">ASSOCIAZIONE</span></td></tr>
+        <tr class="subtotal">
+          <td><strong>Quota convenzione Comune di Alessano</strong></td>
+          <td class="num">€ 800</td>
+          <td style="text-align:center;color:var(--green);font-weight:700">-</td>
+        </tr>
         <tr class="total">
-          <td>Totale costi ricorrenti anno</td>
-          <td class="num">~ € 1.550</td>
+          <td>Residuo a carico dell'associazione</td>
+          <td class="num">~ € 950</td>
+          <td></td>
         </tr>
       </tbody>
     </table>
-    <div class="note">Stime prudenziali. I valori effettivi andranno confermati in fase di contrattualizzazione con i fornitori.</div>
+    <div class="note">Stime prudenziali. I valori effettivi andranno confermati in fase di contrattualizzazione con i fornitori e formalizzati nella convenzione con il Comune.</div>
+  </section>
+
+  <!-- 2B. CONVENZIONE COMUNE -->
+  <section>
+    <div class="eyebrow">02b · Convenzione con il Comune di Alessano</div>
+    <h2>Un partenariato a beneficio reciproco.</h2>
+    <hr class="rule">
+    <p>Il Led Wall sarà installato su suolo pubblico messo a disposizione dal Comune di Alessano. In cambio, Com.Art.Pro APS ETS garantirà all'Amministrazione un <strong>canale di comunicazione diretto e gratuito</strong> verso la cittadinanza, oltre a una quota riservata di spazi informativi.</p>
+    <p>La copertura dei costi di funzionamento di base (energia, connettività, oneri comunali) rientra in questa logica di scambio: il Comune sostiene l'infrastruttura, l'associazione offre il servizio.</p>
+
+    <div class="grid grid-2" style="margin-top:3vh">
+      <div class="box" style="border-top:3px solid var(--green)">
+        <span class="num" style="color:var(--green)">COSA OFFRE IL COMUNE</span>
+        <h3 style="margin:.4rem 0 1rem">Supporto all'infrastruttura</h3>
+        <ul style="list-style:none;padding:0;margin:0">
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Fornitura energia elettrica tramite rete pubblica</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Connettività dati tramite rete comunale o SIM convenzionata</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Esenzione da oneri di occupazione suolo pubblico</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Autorizzazioni e patrocinio istituzionale</li>
+          <li style="padding:.5rem 0;font-size:.95rem;color:var(--ink-soft)">✓ Individuazione della location più idonea</li>
+        </ul>
+      </div>
+      <div class="box accent">
+        <span class="num">COSA OFFRE L'ASSOCIAZIONE</span>
+        <h3 style="margin:.4rem 0 1rem">Servizi al Comune e ai cittadini</h3>
+        <ul style="list-style:none;padding:0;margin:0">
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Spazio garantito del 10% per comunicazioni istituzionali</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Diffusione di avvisi urgenti e di pubblica utilità</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Promozione eventi culturali, sportivi e sociali del Comune</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Campagne civiche (ambiente, sicurezza, salute)</li>
+          <li style="padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.95rem;color:var(--ink-soft)">✓ Canale di comunicazione rapido nei momenti di emergenza</li>
+          <li style="padding:.5rem 0;font-size:.95rem;color:var(--ink-soft)">✓ Valorizzazione del tessuto commerciale e artigiano locale</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note" style="background:rgba(47,125,79,.08);border-left-color:var(--green);margin-top:2vh">
+      <strong>Valore economico della convenzione.</strong> La copertura dei costi di base da parte del Comune vale circa <strong>€ 800/anno</strong>, a fronte di spazi pubblicitari equivalenti sul Led Wall che sul mercato avrebbero un valore ben superiore (stima € 2.000–3.000/anno di media audience pubblica). Si tratta quindi di uno scambio favorevole per entrambe le parti.
+    </div>
   </section>
 
   <!-- 3. BASE ASSOCIATIVA -->
@@ -221,7 +267,7 @@
     <div class="eyebrow">04 · Scenari di copertura</div>
     <h2>Tre modelli da valutare insieme.</h2>
     <hr class="rule">
-    <p>L'investimento totale di <strong>€ 9.760</strong> può essere ammortizzato in diversi modi. Proponiamo tre scenari, sempre nella logica di mantenere le quote sostenibili per i soci e coerenti con la natura associativa del progetto.</p>
+    <p>L'investimento totale di <strong>€ 9.760</strong> può essere ammortizzato in diversi modi. Proponiamo tre scenari, sempre nella logica di mantenere le quote sostenibili per i soci e coerenti con la natura associativa del progetto. Grazie alla convenzione con il Comune di Alessano, i costi ricorrenti a carico dell'associazione scendono a <strong>~ € 950/anno</strong>.</p>
 
     <div class="scenario">
       <h3><span class="tag">A</span> Autofinanziamento diretto — 30 utenti attivi</h3>
@@ -232,7 +278,7 @@
         <tr><td>Copertura investimento + gestione anno 1</td><td style="color:var(--green)">✓ Completa</td></tr>
         <tr><td>Equivalente mensile per socio</td><td>≈ € 33 / mese</td></tr>
       </table>
-      <div class="note" style="margin-top:1rem">Il progetto si ripaga interamente nel primo anno. Dal secondo anno il contributo può essere ridotto (servono solo ~€ 1.550 / anno di costi di gestione).</div>
+      <div class="note" style="margin-top:1rem">Il progetto si ripaga interamente nel primo anno. Dal secondo anno, grazie alla convenzione con il Comune, servono solo ~€ 950/anno di costi residui: il contributo per socio può scendere a ~€ 3/mese.</div>
     </div>
 
     <div class="scenario b">
@@ -273,8 +319,8 @@
       </div>
       <div class="box">
         <span class="num">GESTIONE / ANNO</span>
-        <span class="big">€ 1.550</span>
-        <p>Costi ricorrenti stimati.</p>
+        <span class="big">€ 950</span>
+        <p>Netto convenzione Comune (€ 1.550 lordi − € 800).</p>
       </div>
       <div class="box green">
         <span class="num">QUOTA MEDIA SOCIO</span>
