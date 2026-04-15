@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano Finanziario — Led Wall Com.Art.Pro APS ETS</title>
+<style>
+  :root{
+    --ink:#0e1a2b;
+    --ink-soft:#2a3a55;
+    --paper:#f6f4ee;
+    --accent:#c8451f;
+    --accent-soft:#e86b3a;
+    --gold:#c89b3c;
+    --green:#2f7d4f;
+    --line:rgba(14,26,43,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);scroll-behavior:smooth}
+  body{line-height:1.55}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:6vh 6vw}
+
+  /* header */
+  header{background:var(--ink);color:var(--paper);padding:4vh 6vw 5vh}
+  header .bar{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,244,238,.6);border-bottom:1px solid rgba(246,244,238,.15);padding-bottom:1.5vh;margin-bottom:4vh}
+  header .bar .mark{display:flex;align-items:center;gap:.7rem;font-weight:600;color:var(--paper)}
+  header .bar .mark::before{content:"";width:10px;height:10px;background:var(--accent);display:inline-block;border-radius:2px}
+  header .bar a{color:rgba(246,244,238,.6);text-decoration:none}
+  header .bar a:hover{color:var(--accent-soft)}
+  header .eyebrow{font-size:.82rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent-soft);font-weight:600;margin-bottom:2vh}
+  header h1{font-size:clamp(2rem,4.2vw,4rem);line-height:1.05;letter-spacing:-.02em;font-weight:700;max-width:22ch;margin-bottom:2vh}
+  header p.lead{font-size:clamp(1.05rem,1.35vw,1.3rem);color:rgba(246,244,238,.8);max-width:60ch}
+
+  /* sections */
+  section{margin-bottom:8vh}
+  .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.5vh}
+  h2{font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.1;letter-spacing:-.01em;font-weight:700;margin-bottom:2vh;max-width:28ch}
+  h3{font-size:1.2rem;font-weight:600;margin-bottom:.6rem}
+  p{font-size:1rem;color:var(--ink-soft);max-width:70ch;margin-bottom:1rem}
+  .rule{width:60px;height:3px;background:var(--accent);margin-bottom:3vh;border:0}
+
+  /* table */
+  .cost-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(14,26,43,.06);margin-top:2vh}
+  .cost-table th, .cost-table td{padding:1.1rem 1.4rem;text-align:left;border-bottom:1px solid var(--line)}
+  .cost-table th{background:var(--ink);color:var(--paper);font-weight:600;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
+  .cost-table td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .cost-table tr:last-child td{border-bottom:0}
+  .cost-table tr.total td{background:#faf7ef;font-weight:700;color:var(--ink);font-size:1.05rem}
+  .cost-table tr.subtotal td{background:rgba(200,69,31,.04)}
+  .cost-table td small{display:block;font-weight:400;color:var(--ink-soft);font-size:.85rem;margin-top:.2rem}
+
+  /* boxes */
+  .grid{display:grid;gap:1.2rem;margin-top:2vh}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:800px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+  .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.6rem}
+  .box .num{font-size:.72rem;letter-spacing:.2em;color:var(--accent);font-weight:700;display:block;margin-bottom:.6rem}
+  .box p{font-size:.92rem;margin:0}
+  .box .big{font-size:2rem;font-weight:700;color:var(--ink);display:block;margin:.4rem 0;font-variant-numeric:tabular-nums}
+  .box.accent{border-top:3px solid var(--accent)}
+  .box.green{border-top:3px solid var(--green)}
+  .box.gold{border-top:3px solid var(--gold)}
+
+  /* scenario */
+  .scenario{background:#fff;border-radius:14px;padding:2rem;border:1px solid var(--line);margin-bottom:1.5rem}
+  .scenario h3{display:flex;align-items:center;gap:.8rem}
+  .scenario h3 .tag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .6rem;border-radius:4px;background:var(--accent);color:#fff;font-weight:700}
+  .scenario.b h3 .tag{background:var(--green)}
+  .scenario.c h3 .tag{background:var(--gold);color:var(--ink)}
+  .scenario .mini-table{width:100%;margin-top:1rem;border-collapse:collapse;font-size:.95rem}
+  .scenario .mini-table td{padding:.6rem 0;border-bottom:1px dashed var(--line)}
+  .scenario .mini-table td:last-child{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+  .scenario .mini-table tr:last-child td{border-bottom:0;padding-top:.8rem;font-size:1.05rem;color:var(--ink)}
+
+  /* conditions list */
+  .conditions{background:#fff;border-radius:12px;padding:2rem;border:1px solid var(--line)}
+  .conditions ul{list-style:none}
+  .conditions li{padding:1rem 0;border-bottom:1px solid var(--line);display:flex;gap:1rem;align-items:flex-start}
+  .conditions li:last-child{border-bottom:0}
+  .conditions li .n{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+  .conditions li div strong{display:block;color:var(--ink);margin-bottom:.2rem;font-size:1rem}
+  .conditions li div span{font-size:.92rem;color:var(--ink-soft)}
+
+  /* timeline */
+  .timeline{position:relative;padding-left:2rem;margin-top:2vh}
+  .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--line)}
+  .tl-item{position:relative;padding-bottom:2rem}
+  .tl-item::before{content:"";position:absolute;left:-1.75rem;top:4px;width:18px;height:18px;background:var(--paper);border:3px solid var(--accent);border-radius:50%}
+  .tl-item h4{font-size:1.05rem;font-weight:600;margin-bottom:.3rem}
+  .tl-item .when{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem;font-weight:600}
+  .tl-item p{font-size:.92rem;margin:0}
+
+  /* cta footer */
+  .cta{background:var(--ink);color:var(--paper);padding:5vh 6vw;border-radius:14px;margin-top:6vh;text-align:center}
+  .cta h2{color:var(--paper);margin:0 auto 2vh;max-width:30ch}
+  .cta p{color:rgba(246,244,238,.75);margin:0 auto 2vh;max-width:55ch}
+  .cta .buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2vh}
+  .cta a{padding:.9rem 1.6rem;border-radius:999px;text-decoration:none;font-size:.95rem;border:1px solid rgba(246,244,238,.25);color:var(--paper)}
+  .cta a.primary{background:var(--accent);border-color:var(--accent)}
+
+  /* note */
+  .note{background:rgba(200,155,60,.08);border-left:3px solid var(--gold);padding:1.2rem 1.6rem;border-radius:6px;margin-top:2vh;font-size:.92rem;color:var(--ink-soft)}
+  .note strong{color:var(--ink)}
+
+  footer{text-align:center;padding:4vh 6vw;color:var(--ink-soft);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="mark">Com.Art.Pro APS ETS</div>
+    <div><a href="index.html">← Torna alla presentazione</a></div>
+  </div>
+  <div class="eyebrow">Piano finanziario</div>
+  <h1>Investimento, sostenibilità, condizioni di adesione.</h1>
+  <p class="lead">Proposta economica trasparente da valutare in assemblea. Include costi di allestimento, costi ricorrenti di gestione e scenari di copertura tramite contributi degli associati.</p>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. INVESTIMENTO -->
+  <section>
+    <div class="eyebrow">01 · Investimento iniziale</div>
+    <h2>Cosa serve per partire.</h2>
+    <hr class="rule">
+    <p>Il progetto prevede la fornitura e installazione di un Led Wall esterno dimensioni <strong>196 × 100 × 9 cm</strong>, completo di palo di sostegno, montaggio, modulo internet e sensoristica ambientale (temperatura, umidità). A questo si aggiunge lo sviluppo del portale gestionale per gli associati, realizzato su misura.</p>
+
+    <table class="cost-table">
+      <thead>
+        <tr><th>Voce</th><th style="text-align:right">Importo</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Led Display esterno 196×100×9 cm</strong>
+            <small>Comprensivo di palo di sostegno, montaggio, modulo internet, sensori temperatura e umidità</small>
+          </td>
+          <td class="num">€ 5.000,00</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Portale gestionale dedicato</strong>
+            <small>Software realizzato ad hoc per gestione contenuti, campagne, approvazioni e calendario</small>
+          </td>
+          <td class="num">€ 3.000,00</td>
+        </tr>
+        <tr class="subtotal">
+          <td><strong>Imponibile totale</strong></td>
+          <td class="num">€ 8.000,00</td>
+        </tr>
+        <tr>
+          <td>IVA 22%</td>
+          <td class="num">€ 1.760,00</td>
+        </tr>
+        <tr class="total">
+          <td>Investimento totale IVA inclusa</td>
+          <td class="num">€ 9.760,00</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Nota.</strong> Gli importi IVA sono indicativi al 22%. L'aliquota effettiva dipenderà dal regime fiscale applicabile alle singole fatture e dagli eventuali benefici riservati al Terzo Settore (APS ETS).</div>
+  </section>
+
+  <!-- 2. COSTI RICORRENTI -->
+  <section>
+    <div class="eyebrow">02 · Costi ricorrenti annuali</div>
+    <h2>Quanto costa tenerlo in funzione.</h2>
+    <hr class="rule">
+    <p>Oltre all'investimento una tantum, il Led Wall richiede alcuni costi di gestione ordinaria che è corretto considerare fin da subito, per garantire sostenibilità reale del progetto.</p>
+
+    <table class="cost-table">
+      <thead>
+        <tr><th>Voce</th><th style="text-align:right">Stima annuale</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Energia elettrica</strong><small>Consumo medio impianto led esterno</small></td><td class="num">€ 360</td></tr>
+        <tr><td><strong>Connettività dati</strong><small>SIM dati / collegamento internet del modulo</small></td><td class="num">€ 240</td></tr>
+        <tr><td><strong>Hosting portale</strong><small>Server, dominio, certificati, backup</small></td><td class="num">€ 300</td></tr>
+        <tr><td><strong>Manutenzione ordinaria</strong><small>Pulizia, verifiche, piccoli interventi</small></td><td class="num">€ 400</td></tr>
+        <tr><td><strong>Assicurazione impianto</strong><small>Copertura danni, atti vandalici, eventi atmosferici</small></td><td class="num">€ 250</td></tr>
+        <tr class="total">
+          <td>Totale costi ricorrenti anno</td>
+          <td class="num">~ € 1.550</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">Stime prudenziali. I valori effettivi andranno confermati in fase di contrattualizzazione con i fornitori.</div>
+  </section>
+
+  <!-- 3. BASE ASSOCIATIVA -->
+  <section>
+    <div class="eyebrow">03 · La base associativa</div>
+    <h2>Su chi si regge il progetto.</h2>
+    <hr class="rule">
+    <div class="grid grid-3">
+      <div class="box">
+        <span class="num">SOCI TOTALI</span>
+        <span class="big">≈ 150</span>
+        <p>Commercianti, artigiani e liberi professionisti già aderenti all'associazione.</p>
+      </div>
+      <div class="box accent">
+        <span class="num">UTENTI POTENZIALI PORTALE</span>
+        <span class="big">≈ 30</span>
+        <p>Attività con reale interesse a pubblicare contenuti promozionali sul Led Wall.</p>
+      </div>
+      <div class="box green">
+        <span class="num">SOSTENIBILITÀ RICHIESTA</span>
+        <span class="big">20%</span>
+        <p>Quota della base associativa che garantisce la copertura del progetto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SCENARI -->
+  <section>
+    <div class="eyebrow">04 · Scenari di copertura</div>
+    <h2>Tre modelli da valutare insieme.</h2>
+    <hr class="rule">
+    <p>L'investimento totale di <strong>€ 9.760</strong> può essere ammortizzato in diversi modi. Proponiamo tre scenari, sempre nella logica di mantenere le quote sostenibili per i soci e coerenti con la natura associativa del progetto.</p>
+
+    <div class="scenario">
+      <h3><span class="tag">A</span> Autofinanziamento diretto — 30 utenti attivi</h3>
+      <p>Il progetto è sostenuto esclusivamente dai 30 associati che utilizzeranno il portale, con un contributo annuale dedicato.</p>
+      <table class="mini-table">
+        <tr><td>Contributo annuo per utente attivo</td><td>€ 400</td></tr>
+        <tr><td>Ricavi anno 1 (30 × € 400)</td><td>€ 12.000</td></tr>
+        <tr><td>Copertura investimento + gestione anno 1</td><td style="color:var(--green)">✓ Completa</td></tr>
+        <tr><td>Equivalente mensile per socio</td><td>≈ € 33 / mese</td></tr>
+      </table>
+      <div class="note" style="margin-top:1rem">Il progetto si ripaga interamente nel primo anno. Dal secondo anno il contributo può essere ridotto (servono solo ~€ 1.550 / anno di costi di gestione).</div>
+    </div>
+
+    <div class="scenario b">
+      <h3><span class="tag">B</span> Ammortamento triennale + pacchetti differenziati</h3>
+      <p>L'investimento iniziale viene diluito su tre anni, con pacchetti base e premium per incontrare esigenze diverse.</p>
+      <table class="mini-table">
+        <tr><td>Pacchetto <strong>Base</strong> — slot standard (stimato 20 soci)</td><td>€ 20 / mese · € 240 / anno</td></tr>
+        <tr><td>Pacchetto <strong>Premium</strong> — più visibilità e priorità (stimato 10 soci)</td><td>€ 40 / mese · € 480 / anno</td></tr>
+        <tr><td>Ricavi annuali stimati (20×240 + 10×480)</td><td>€ 9.600</td></tr>
+        <tr><td>Ammortamento investimento su 3 anni</td><td>≈ € 3.254 / anno</td></tr>
+        <tr><td>Margine per gestione e riserve</td><td style="color:var(--green)">+ € 4.796 / anno</td></tr>
+      </table>
+    </div>
+
+    <div class="scenario c">
+      <h3><span class="tag">C</span> Modello misto — soci + sponsor istituzionali</h3>
+      <p>La copertura è distribuita tra contributi dei soci e risorse esterne (bandi Terzo Settore, sponsor territoriali, eventuali partecipazioni istituzionali).</p>
+      <table class="mini-table">
+        <tr><td>Contributo soci (30 × € 250)</td><td>€ 7.500</td></tr>
+        <tr><td>Sponsor / bandi / partenariati</td><td>€ 2.500 – 4.000</td></tr>
+        <tr><td>Totale atteso anno 1</td><td>€ 10.000 – 11.500</td></tr>
+        <tr><td>Quota mensile per socio</td><td>≈ € 21 / mese</td></tr>
+      </table>
+      <div class="note" style="margin-top:1rem">Scenario più sostenibile per i soci, richiede azione associativa per reperire risorse esterne (canale da attivare in ogni caso, indipendentemente dallo scenario scelto).</div>
+    </div>
+  </section>
+
+  <!-- 5. SINTESI -->
+  <section>
+    <div class="eyebrow">05 · Sintesi economica</div>
+    <h2>Il quadro completo, in un colpo d'occhio.</h2>
+    <hr class="rule">
+    <div class="grid grid-4">
+      <div class="box accent">
+        <span class="num">INVESTIMENTO</span>
+        <span class="big">€ 9.760</span>
+        <p>IVA inclusa, una tantum.</p>
+      </div>
+      <div class="box">
+        <span class="num">GESTIONE / ANNO</span>
+        <span class="big">€ 1.550</span>
+        <p>Costi ricorrenti stimati.</p>
+      </div>
+      <div class="box green">
+        <span class="num">QUOTA MEDIA SOCIO</span>
+        <span class="big">€ 20–33</span>
+        <p>Al mese, secondo scenario.</p>
+      </div>
+      <div class="box gold">
+        <span class="num">BREAK-EVEN</span>
+        <span class="big">12 mesi</span>
+        <p>Scenario A · pieno utilizzo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CONDIZIONI -->
+  <section>
+    <div class="eyebrow">06 · Condizioni di adesione</div>
+    <h2>Regole chiare, uguali per tutti.</h2>
+    <hr class="rule">
+    <div class="conditions">
+      <ul>
+        <li><span class="n">1</span><div><strong>Iscrizione in regola</strong><span>L'accesso al portale è riservato ai soci Com.Art.Pro APS ETS in regola con la quota associativa annuale.</span></div></li>
+        <li><span class="n">2</span><div><strong>Contributo dedicato al servizio</strong><span>Chi utilizza il Led Wall versa un contributo annuale aggiuntivo, secondo il pacchetto scelto. Il contributo copre investimento ammortizzato e gestione.</span></div></li>
+        <li><span class="n">3</span><div><strong>Periodo di impegno</strong><span>L'adesione al servizio è su base annuale, rinnovabile. Per la fase pilota è previsto un impegno minimo di 12 mesi.</span></div></li>
+        <li><span class="n">4</span><div><strong>Approvazione dei contenuti</strong><span>Ogni contenuto è soggetto a verifica preventiva da parte dell'associazione, secondo il regolamento approvato dal direttivo.</span></div></li>
+        <li><span class="n">5</span><div><strong>Equilibrio degli slot</strong><span>La ripartizione 70% soci · 20% Com.Art.Pro · 10% istituzionale è vincolante e garantita dal sistema.</span></div></li>
+        <li><span class="n">6</span><div><strong>Trasparenza di bilancio</strong><span>Il bilancio del progetto è rendicontato separatamente in assemblea, con dettaglio di entrate, uscite e utilizzo degli slot.</span></div></li>
+        <li><span class="n">7</span><div><strong>Recesso</strong><span>Il socio può recedere dal servizio a fine anno associativo con preavviso di 60 giorni. Le quote versate per l'anno in corso non sono rimborsabili.</span></div></li>
+        <li><span class="n">8</span><div><strong>Governance</strong><span>Il progetto è gestito dal direttivo, eventualmente supportato da una commissione tecnica interna composta da soci volontari.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. ROADMAP -->
+  <section>
+    <div class="eyebrow">07 · Tempistiche</div>
+    <h2>Dal voto in assemblea alla messa in onda.</h2>
+    <hr class="rule">
+    <div class="timeline">
+      <div class="tl-item"><div class="when">Mese 1</div><h4>Delibera assembleare</h4><p>Approvazione del progetto e del piano finanziario. Apertura raccolta adesioni al servizio.</p></div>
+      <div class="tl-item"><div class="when">Mese 2</div><h4>Raccolta adesioni e contratti fornitori</h4><p>Conferma quota minima di utenti. Ordine hardware, firma contratto sviluppo software, individuazione location.</p></div>
+      <div class="tl-item"><div class="when">Mese 3–4</div><h4>Installazione e sviluppo portale</h4><p>Montaggio Led Wall, allacci, test tecnici. Sviluppo e collaudo del portale associati.</p></div>
+      <div class="tl-item"><div class="when">Mese 5</div><h4>Avvio fase pilota</h4><p>Primi contenuti in onda, formazione soci, raccolta feedback operativi.</p></div>
+      <div class="tl-item"><div class="when">Mese 12</div><h4>Valutazione e regolamentazione definitiva</h4><p>Analisi dei risultati della fase pilota, aggiornamento regolamento, definizione del modello a regime.</p></div>
+    </div>
+  </section>
+
+  <!-- 8. PROPOSTA -->
+  <section>
+    <div class="eyebrow">08 · Proposta al direttivo</div>
+    <h2>Cosa sottoponiamo al voto.</h2>
+    <hr class="rule">
+    <div class="grid grid-2">
+      <div class="box accent">
+        <span class="num">DELIBERA PRINCIPALE</span>
+        <h3 style="margin:.5rem 0 .8rem">Avvio del progetto Led Wall</h3>
+        <p>Approvazione dell'investimento di € 9.760 IVA inclusa e dell'avvio della fase pilota di 12 mesi.</p>
+      </div>
+      <div class="box green">
+        <span class="num">DELIBERA COMPLEMENTARE</span>
+        <h3 style="margin:.5rem 0 .8rem">Scelta dello scenario di copertura</h3>
+        <p>Individuazione fra scenari A, B, C del modello di contribuzione più adatto al contesto associativo attuale.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <h2>Un progetto sostenibile, costruito sui soci.</h2>
+    <p>Il piano presentato è una base di lavoro. Le cifre e i modelli possono essere affinati insieme, ma il principio resta lo stesso: trasparenza, equilibrio e beneficio reale per chi aderisce.</p>
+    <div class="buttons">
+      <a href="index.html" class="primary">← Torna alla presentazione</a>
+      <a href="#">Scarica il piano (PDF)</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>Com.Art.Pro APS ETS · Alessano e Montesardo · Piano finanziario presentato in assemblea</footer>
+
+</body>
+</html>
